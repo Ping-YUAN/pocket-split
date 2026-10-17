@@ -43,8 +43,8 @@ export default function SettlementSummary({ result, participants, expenseCount }
 
   return (
     <Stack spacing={3}>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
+      <Grid container spacing={0} sx={{ width: '100%' }}>
+        <Grid item xs={4} sx={{ pl: 0, pt: 0, pr: 1, pb: 0 }}>
           <Paper sx={{ p: { xs: 1, sm: 2 }, height: '100%' }}>
             <Typography variant="overline" color="text.secondary" sx={{ fontSize: { xs: '0.58rem', sm: '0.75rem' }, lineHeight: 1.2 }}>
               Total
@@ -54,7 +54,7 @@ export default function SettlementSummary({ result, participants, expenseCount }
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={4} sx={{ pl: 0, pt: 0, pr: 1, pb: 0 }}>
           <Paper sx={{ p: { xs: 1, sm: 2 }, height: '100%' }}>
             <Typography variant="overline" color="text.secondary" sx={{ fontSize: { xs: '0.58rem', sm: '0.75rem' }, lineHeight: 1.2 }}>
               Average
@@ -64,7 +64,7 @@ export default function SettlementSummary({ result, participants, expenseCount }
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={4} sx={{ pl: 0, pt: 0, pr: 0, pb: 0 }}>
           <Paper sx={{ p: { xs: 1, sm: 2 }, height: '100%' }}>
             <Typography variant="overline" color="text.secondary" sx={{ fontSize: { xs: '0.58rem', sm: '0.75rem' }, lineHeight: 1.2 }}>
               Expenses
