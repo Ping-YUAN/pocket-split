@@ -12,6 +12,10 @@ A lightweight, 100% client-side web application built with React, TypeScript, an
 - Use in-app confirmation dialogs to protect deletion and reset actions
 - Responsive layouts for mobile, tablet, and desktop
 
+## 🚀 Live App
+
+[Open Pocket Split](https://ping-yuan.github.io/pocket-split/)
+
 ## 🖼️ Screenshots
 
 ### Gathering and participant management
