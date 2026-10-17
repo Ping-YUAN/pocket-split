@@ -9,11 +9,13 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  IconButton,
   Tab,
   Tabs,
   Toolbar,
   Typography,
 } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import { useEffect, useMemo, useState } from 'react';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
@@ -361,14 +363,26 @@ export default function App() {
                 Smart group expense settlement
               </Typography>
             </Box>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={resetAll}
-              sx={{ minWidth: 0, px: { xs: 1.5, sm: 2 }, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
-            >
-              Reset all
-            </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
+              <IconButton
+                component="a"
+                href="https://github.com/Ping-YUAN/pocket-split"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open Pocket Split GitHub repository"
+                color="inherit"
+              >
+                <GitHubIcon />
+              </IconButton>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={resetAll}
+                sx={{ minWidth: 0, px: { xs: 1.5, sm: 2 }, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
+              >
+                Reset all
+              </Button>
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>

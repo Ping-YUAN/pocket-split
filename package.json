@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages-clean && gh-pages -d dist -r https://github.com/Ping-YUAN/pocket-split.git"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

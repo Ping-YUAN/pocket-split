@@ -12,6 +12,7 @@ Icons: `@mui/icons-material`
 Persistence: Browser `localStorage` for state persistence across sessions
 Deployment: GitHub Pages (via `gh-pages` package or GitHub Actions)
 Visual References: Current UI screenshots are stored in `assets/`: `participants.png` (gathering and participant management), `add-expense.png` (expense form), and `results.png` (settlement summary). Keep these screenshots aligned with the documented interface and link them from the README.
+Repository Link: Display an accessible GitHub icon in the application header that opens `https://github.com/Ping-YUAN/pocket-split` in a new tab.
 2. TypeScript Data Models & Types (`src/types/index.ts`)
 To ensure clean code and robust calculation logic, the following TypeScript interfaces should be implemented:
 ```typescript
@@ -127,7 +128,7 @@ Initialize Git & Push Repository:
    git remote add origin https://github.com/<your-username>/pocket-split.git
    git push -u origin main
    ```
-Configure Vite for GitHub Pages (`vite.config.ts`):
+Configure Vite for GitHub Pages (`vite.config.js`):
 ```typescript
    import { defineConfig } from 'vite'
    import react from '@vitejs/plugin-react'
@@ -141,15 +142,15 @@ Install gh-pages package:
 ```bash
    npm install gh-pages --save-dev
    ```
-Add deployment scripts to `package.json`:
+The project `package.json` includes deployment scripts. The deploy command explicitly specifies the repository:
 ```json
    "scripts": {
      "dev": "vite",
-     "build": "tsc && vite build",
-     "lint": "eslint .",
+     "build": "tsc --noEmit && vite build",
+     "lint": "eslint . --ext .ts,.tsx",
      "preview": "vite preview",
      "predeploy": "npm run build",
-     "deploy": "gh-pages -d dist"
+     "deploy": "gh-pages-clean && gh-pages -d dist -r https://github.com/Ping-YUAN/pocket-split.git"
    }
    ```
 Deploy:
@@ -157,6 +158,13 @@ Deploy:
    npm run deploy
    ```
 Go to your GitHub repo settings -> Pages -> Set source branch to `gh-pages`.
+
+Deployment troubleshooting:
+- The `deploy` script clears the local `gh-pages` cache before publishing. If `gh-pages` still reports `Failed to get remote.origin.url`, run `npx gh-pages-clean` explicitly and retry `npm run deploy`. This removes the deploy cache only, not the project or Git history.
+- If GitHub reports `Repository not found`, confirm the repository exists, verify the remote with `git remote -v`, and ensure the authenticated account has access. Correct the remote using `git remote set-url origin https://github.com/Ping-YUAN/pocket-split.git` if necessary.
+- If Git reports `Invalid username or token`, authenticate HTTPS Git operations using GitHub CLI (`gh auth login`, choose browser-based HTTPS login) or refresh the saved `github.com` credentials in Windows Credential Manager. GitHub account passwords are not accepted for Git over HTTPS; never expose or commit a personal access token.
+- If `gh` is not recognized after installation, reopen PowerShell or install GitHub CLI from `https://cli.github.com/`.
+- If the deployed site returns 404 or serves old assets, verify GitHub Pages publishes `gh-pages` from the repository root, confirm Vite `base` is `/pocket-split/`, and allow time for Pages to refresh.
 7. README.md Template
 ````markdown
 # Pocket Split 💸
