@@ -141,9 +141,9 @@ export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormP
         subheader="Track a purchase and split it with the group."
         sx={{
           px: 2,
-          pt: 0,
+          pt: 0.5,
           pb: 0,
-          '& .MuiCardHeader-title': { lineHeight: 1.2, pt: 0 },
+          '& .MuiCardHeader-title': { lineHeight: 1.2, pt: 0.5 },
           '& .MuiCardHeader-subheader': { lineHeight: 1.2 },
         }}
       />
