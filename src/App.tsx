@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { useEffect, useMemo, useState } from 'react';
+import appIcon from '../assets/apple-touch-icon.png';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import ParticipantManager from './components/ParticipantManager';
@@ -355,13 +356,22 @@ export default function App() {
       <AppBar position="sticky" color="primary" elevation={0} sx={{ top: 0, zIndex: 1100 }}>
         <Toolbar sx={{ minHeight: { xs: 64, sm: 72 }, px: { xs: 2, sm: 3 } }}>
           <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
-            <Box sx={{ minWidth: 0 }}>
-              <Typography variant="h6" sx={{ lineHeight: 1.2, fontWeight: 800 }}>
-                Pocket Split
-              </Typography>
-              <Typography variant="caption" sx={{ opacity: 0.85, display: 'block' }}>
-                Smart group expense settlement
-              </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}>
+              <Box
+                component="img"
+                src={appIcon}
+                alt=""
+                aria-hidden="true"
+                sx={{ width: 32, height: 32, flexShrink: 0, borderRadius: 1 }}
+              />
+              <Box sx={{ minWidth: 0 }}>
+                <Typography variant="h6" sx={{ lineHeight: 1.2, fontWeight: 800 }}>
+                  Pocket Split
+                </Typography>
+                <Typography variant="caption" sx={{ opacity: 0.85, display: 'block' }}>
+                  Smart group expense settlement
+                </Typography>
+              </Box>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
               <IconButton

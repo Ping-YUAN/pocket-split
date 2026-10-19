@@ -10,31 +10,62 @@ A lightweight, 100% client-side web application built with React, TypeScript, an
 - View gathering totals, average cost per participant, expense count, suggested transfers, and net balances
 - Persist data in `localStorage`, including migration of older single-gathering data
 - Use in-app confirmation dialogs to protect deletion and reset actions
+- Add Pocket Split to an iPhone home screen with the custom app icon
 - Responsive layouts for mobile, tablet, and desktop
 
 ## 🚀 Live App
 
 [Open Pocket Split](https://ping-yuan.github.io/pocket-split/)
 
+## 📱 Add Pocket Split to your home screen
+
+Add a shortcut to the live app for quick access. It opens Pocket Split in your browser and keeps your data in that browser's local storage.
+
+### iPhone or iPad (Safari)
+
+1. Open [Pocket Split](https://ping-yuan.github.io/pocket-split/) in **Safari**.
+2. Tap the **Share** button.
+3. Scroll down and tap **Add to Home Screen**. If the option is not visible, choose **Edit Actions** and add it.
+4. Keep or edit the name, then tap **Add**.
+
+The home screen shortcut uses the Pocket Split icon. If you previously added the app, remove the old shortcut and add it again to refresh its icon.
+
+### Android (Chrome)
+
+1. Open [Pocket Split](https://ping-yuan.github.io/pocket-split/) in **Chrome**.
+2. Tap the **⋮** menu.
+3. Tap **Add to Home screen** (or **Install app** if Chrome offers that option).
+4. Confirm the name and tap **Add** or **Install**.
+
+On some Android browsers the menu wording differs; look for **Install app** or **Add to Home screen**. This creates a convenient home screen entry. Pocket Split currently saves data in the browser, so use the same browser to see the same saved gatherings.
+
 ## 🖼️ Screenshots
 
-### Gathering and participant management
+### 1. Open Pocket Split from your iPhone home screen
 
-Gatherings are selected, created, and deleted as chips in the collapsible management panel. Participants for the active gathering are managed in the same section.
+Add the app to your iPhone home screen for quick access. The custom app icon is shown below.
 
-![Gathering and participant management](assets/participants.png)
+![Pocket Split on an iPhone home screen](assets/app.png)
 
-### Add an expense
+### 2. Set up a gathering and its participants
 
-Enter the description, amount, payer, and participants sharing the expense. Split controls stay together in one row, and the add button remains easy to reach.
+Create or select a gathering, then add the participants who will share its expenses.
 
-![Add expense form](assets/add-expense.png)
+![Gathering and participant management](assets/gathering-participants.png)
 
-### Settlement results
+### 3. Record shared expenses
 
-The summary shows total spending, average per participant, expense count, suggested transfers, and net balances.
+Enter each expense's description, amount, payer, and split participants. Review or remove recorded expenses in the expense log.
 
-![Settlement results](assets/results.png)
+![Add an expense](assets/add-expense.PNG)
+
+![Expense log](assets/expense-log.png)
+
+### 4. Review settlement results
+
+See total spending, average per participant, expense count, suggested transfers, and net balances for the selected gathering.
+
+![Settlement results](assets/result.png)
 
 ## 🚀 Local Development
 
@@ -52,6 +83,8 @@ npm run deploy
 ```
 
 The deploy script builds the app, clears the local `gh-pages` cache, and publishes `dist` to the `gh-pages` branch of `Ping-YUAN/pocket-split`. After the first deployment, verify that GitHub Pages is enabled in the repository settings and uses the `gh-pages` branch with the root folder.
+
+The custom home-screen icon is kept in `assets/apple-touch-icon.png` and bundled by Vite.
 
 ### Deployment troubleshooting
 

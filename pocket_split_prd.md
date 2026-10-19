@@ -1,4 +1,4 @@
-Pocket Split - Product Requirements Document & AI Development Guide (v4)
+Pocket Split - Product Requirements Document & AI Development Guide (v5)
 This document serves as the complete Product Requirements Document (PRD) and developer specification for Pocket Split, a purely frontend web application designed to calculate and settle group expenses (AA-style billing) with zero backend dependency, built with TypeScript and optimized for mobile, tablet, and desktop browsers.
 1. Project Overview & Tech Stack
 App Name: Pocket Split
@@ -11,8 +11,11 @@ UI Library: Material UI (MUI v5/v6) with a heavy Mobile-First UX focus
 Icons: `@mui/icons-material`
 Persistence: Browser `localStorage` for state persistence across sessions
 Deployment: GitHub Pages (via `gh-pages` package or GitHub Actions)
-Visual References: Current UI screenshots are stored in `assets/`: `participants.png` (gathering and participant management), `add-expense.png` (expense form), and `results.png` (settlement summary). Keep these screenshots aligned with the documented interface and link them from the README.
+Visual References: Current workflow screenshots are stored in `assets/`: `app.png` (iPhone home-screen installation), `gathering-participants.png` (gathering and participant management), `add-expense.PNG` (expense form), `expense-log.png` (recorded expenses), and `result.png` (settlement summary). Link and present these screenshots in README in the order a user performs the core tasks. Preserve filename casing in references.
 Repository Link: Display an accessible GitHub icon in the application header that opens `https://github.com/Ping-YUAN/pocket-split` in a new tab.
+Home Screen Icon: Crop the already-rounded artwork and its shadow in `assets/icon.jpeg` to a square, preserving the existing design and adding transparent rounded corners to the square crop. Store the 180x180 PNG at `assets/apple-touch-icon.png`, reference it from `index.html` as a Vite-processed local asset for both `rel="apple-touch-icon"` and standard favicon metadata, and set the iOS home screen title to "Pocket Split". Do not store the app icon in `public/`.
+Header Branding: Display the same app icon beside the Pocket Split title in the application header.
+Home Screen Guide: README must explain how to add the live website to an iPhone/iPad home screen using Safari's Share > Add to Home Screen flow and to an Android home screen using Chrome's menu > Add to Home screen (or Install app, when offered). Explain that app data remains browser-local and that removing/re-adding a shortcut can refresh a cached icon.
 2. TypeScript Data Models & Types (`src/types/index.ts`)
 To ensure clean code and robust calculation logic, the following TypeScript interfaces should be implemented:
 ```typescript
@@ -97,9 +100,13 @@ Color Theme: Vibrant, friendly financial palette (e.g., Deep Purple / Teal prima
 pocket-split/
 ├── public/
 ├── assets/
-│   ├── participants.png
-│   ├── add-expense.png
-│   └── results.png
+│   ├── app.png
+│   ├── gathering-participants.png
+│   ├── add-expense.PNG
+│   ├── expense-log.png
+│   ├── result.png
+│   ├── icon.jpeg
+│   └── apple-touch-icon.png
 ├── src/
 │   ├── components/
 │   │   ├── ExpenseForm.tsx
