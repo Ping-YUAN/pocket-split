@@ -335,6 +335,26 @@ export default function App() {
     )
   }
 
+  const clearExpenses = () => {
+    const gatheringId = activeGathering.id
+    const expenseCount = expenses.length
+    if (!expenseCount) return
+
+    requestConfirmation(
+      'Clear all expenses?',
+      `Remove all ${expenseCount} expense(s) from "${activeGathering.name}"? Participants and the gathering will be kept.`,
+      () => {
+        setAppState((current) => ({
+          ...current,
+          gatherings: current.gatherings.map((gathering) =>
+            gathering.id === gatheringId ? { ...gathering, expenses: [] } : gathering,
+          ),
+        }))
+      },
+      'Clear expenses',
+    )
+  }
+
   const resetAll = () => {
     requestConfirmation(
       'Reset all data?',
@@ -437,7 +457,12 @@ export default function App() {
             </Grid>
 
             <Grid item xs={12} md={6} lg={4}>
-              <ExpenseList expenses={expenses} participants={participants} onRemoveExpense={removeExpense} />
+              <ExpenseList
+                expenses={expenses}
+                participants={participants}
+                onRemoveExpense={removeExpense}
+                onClearExpenses={clearExpenses}
+              />
             </Grid>
           </Grid>
         ) : (

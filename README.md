@@ -7,6 +7,7 @@ A lightweight, 100% client-side web application built with React, TypeScript, an
 - Create, save, switch between, and delete gatherings; each gathering keeps its participants and expenses separate
 - Manage gatherings and participants together in a collapsible section
 - Add expenses with per-expense payer and split-participant selection
+- Clear all expenses from a gathering while keeping its participants for reuse
 - View gathering totals, average cost per participant, expense count, suggested transfers, and net balances
 - Persist data in `localStorage`, including migration of older single-gathering data
 - Use in-app confirmation dialogs to protect deletion and reset actions

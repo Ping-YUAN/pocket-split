@@ -2,6 +2,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Button,
   Chip,
   Divider,
   IconButton,
@@ -24,9 +25,15 @@ type ExpenseListProps = {
   expenses: Expense[]
   participants: Participant[]
   onRemoveExpense: (expenseId: string) => void
+  onClearExpenses: () => void
 }
 
-export default function ExpenseList({ expenses, participants, onRemoveExpense }: ExpenseListProps) {
+export default function ExpenseList({
+  expenses,
+  participants,
+  onRemoveExpense,
+  onClearExpenses,
+}: ExpenseListProps) {
   const participantMap = new Map(participants.map((participant) => [participant.id, participant.name]))
 
   if (!expenses.length) {
@@ -51,6 +58,11 @@ export default function ExpenseList({ expenses, participants, onRemoveExpense }:
       <CardHeader
         title="Expense log"
         subheader="Review every item and remove it if needed."
+        action={
+          <Button color="error" size="small" onClick={onClearExpenses}>
+            Clear all
+          </Button>
+        }
         sx={{ pb: 1 }}
       />
       <CardContent sx={{ pt: 1 }}>

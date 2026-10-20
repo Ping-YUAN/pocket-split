@@ -61,6 +61,7 @@ Fields required per expense:
 `payerId` (Dropdown selection from existing participants)
 `participantIds` (Checkboxes or interactive chips/list).
 Deletion Safety: Use an in-app Material UI dialog to confirm expense deletion. The "Reset All" action must also use this dialog style. Do not use browser-native confirmation dialogs.
+Clear Gathering Expenses: Provide a "Clear all" action in the expense log. Confirm with an in-app Material UI dialog that states the number of expenses to be removed and clarifies that the gathering and participants will remain. Clear expenses only from the active gathering.
 Participant Selection Efficiency (Key UX Enhancement):
 Default State: By default, all current participants should be selected when opening the "Add Expense" form/modal.
 Quick Actions / Toggle All: Provide a prominent "Select All / Clear All" (全选 / 反选) checkbox or button at the top of the participant selection list.
