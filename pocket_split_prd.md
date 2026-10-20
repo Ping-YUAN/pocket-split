@@ -10,6 +10,7 @@ Framework: React (Functional components, Hooks)
 UI Library: Material UI (MUI v5/v6) with a heavy Mobile-First UX focus
 Icons: `@mui/icons-material`
 Persistence: Browser `localStorage` for state persistence across sessions
+Offline Support: Use a service worker to precache the built app shell and static assets. After at least one successful online visit, navigation/reload while offline should serve the most recently cached app version. Automatically update the cache when a new version is available online; gathering data remains in `localStorage`.
 Deployment: GitHub Pages (via `gh-pages` package or GitHub Actions)
 Visual References: Current workflow screenshots are stored in `assets/`: `app.png` (iPhone home-screen installation), `gathering-participants.png` (gathering and participant management), `add-expense.PNG` (expense form), `expense-log.png` (recorded expenses), and `result.png` (settlement summary). Link and present these screenshots in README in the order a user performs the core tasks. Preserve filename casing in references.
 Repository Link: Display an accessible GitHub icon in the application header that opens `https://github.com/Ping-YUAN/pocket-split` in a new tab.
@@ -56,7 +57,7 @@ Compact Management Pattern: The participant section should remain lightweight an
 Quick-Add Behavior: Once a participant is added in the current session, they should be automatically included in the active expense split selection when the form is still in its default “all selected” state. This reduces follow-up edits and keeps the flow fast on mobile.
 Feature 2: Expense Logging & Participant Selection
 Fields required per expense:
-`description` (Text, e.g., "Dinner", "Uber")
+`description` (Optional text, e.g., "Dinner", "Uber"). When omitted, use `Expense by <payer name>` as the expense label; the expense date remains available separately.
 `amount` (Number, `inputMode="decimal"` for mobile numeric keypad)
 `payerId` (Dropdown selection from existing participants)
 `participantIds` (Checkboxes or interactive chips/list).
@@ -92,7 +93,7 @@ Layout Structure:
 Gathering and Participants: Combine gathering chips and participant management in one collapsible card. Give the "Gatherings" label a prominent title style. Tapping a gathering chip selects it, its delete icon deletes it after in-app confirmation, and an "Add gathering" chip opens the creation dialog. Keep the active gathering name and participant count visible while collapsed.
 Mobile Bottom Navigation or Sticky Header Tabs: Easily switch between "1. Expenses" and "2. Settlement" within the selected gathering.
 Responsive Expense Layout: Stack the participant manager, expense form, and expense log on phones; display them in two columns on tablet-sized screens and three columns on desktop. Expand the content container at larger viewport widths so desktop layouts can use the available space.
-Compact Forms: Keep the amount and payer fields side-by-side on all screen sizes. Display "Split with", "Select All", and "Clear All" in a single row with the label and actions aligned to opposite ends. Set the top padding of the expense form card header to 16px, with a small additional top inset on the "Add expense" title; keep remaining form spacing compact. Keep the "Add Expense" submit button sticky at the bottom of the expense form while scrolling through split participants, so it remains readily accessible; use appropriate mobile keypads (`type="number"` or `inputMode="decimal"` for amounts).
+Compact Forms: Keep the amount and payer fields side-by-side on all screen sizes, followed by the optional description field. Display "Split with", "Select All", and "Clear All" in a single row with the label and actions aligned to opposite ends. Set the top padding of the expense form card header to 16px, with a small additional top inset on the "Add expense" title; keep remaining form spacing compact. Keep the "Add Expense" submit button sticky at the bottom of the expense form while scrolling through split participants, so it remains readily accessible; use appropriate mobile keypads (`type="number"` or `inputMode="decimal"` for amounts).
 Fast Multi-select Controls: In the expense form, display participants as tap-friendly MUI `Chip` controls or `Checkbox` list items with an accessible top toolbar for "Select All".
 Cards & Accordions: Group expenses in clean cards rather than wide desktop tables.
 Color Theme: Vibrant, friendly financial palette (e.g., Deep Purple / Teal primary, amber accents) with support for clean typography.

@@ -98,11 +98,6 @@ export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormP
     const trimmedDescription = description.trim()
     const parsedAmount = Number(amount)
 
-    if (!trimmedDescription) {
-      setError('Expense description is required.')
-      return
-    }
-
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
       setError('Expense amount must be a positive number.')
       return
@@ -118,13 +113,16 @@ export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormP
       return
     }
 
+    const createdAt = new Date()
+    const payerName = participants.find((participant) => participant.id === payerId)?.name ?? 'Unknown'
+
     onAddExpense({
       id: createExpenseId(),
-      description: trimmedDescription,
+      description: trimmedDescription || `Expense by ${payerName}`,
       amount: parsedAmount,
       payerId,
       participantIds: selectedParticipants,
-      date: new Date().toISOString(),
+      date: createdAt.toISOString(),
     })
 
     setDescription('')
@@ -142,25 +140,14 @@ export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormP
         sx={{
           px: 2,
           pt: 0.5,
-          pb: 0,
+          pb: 1,
           '& .MuiCardHeader-title': { lineHeight: 1.2, pt: 0.5 },
           '& .MuiCardHeader-subheader': { lineHeight: 1.2 },
         }}
       />
-      <CardContent sx={{ px: 2, pt: 0.75, pb: 0, '&:last-child': { pb: 1 } }}>
+      <CardContent sx={{ px: 2, pt: 1, pb: 0, '&:last-child': { pb: 1 } }}>
         <form onSubmit={handleSubmit}>
           <Stack spacing={1}>
-            <TextField
-              label="Description"
-              placeholder="Dinner at Bistro"
-              value={description}
-              onChange={(event) => {
-                setDescription(event.target.value)
-                if (error) setError('')
-              }}
-              fullWidth
-            />
-
             <Stack direction="row" spacing={1}>
               <TextField
                 label="Amount"
@@ -198,6 +185,17 @@ export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormP
                 ))}
               </TextField>
             </Stack>
+
+            <TextField
+              label="Description (optional)"
+              placeholder="e.g. Dinner"
+              value={description}
+              onChange={(event) => {
+                setDescription(event.target.value)
+                if (error) setError('')
+              }}
+              fullWidth
+            />
 
             <FormControl component="fieldset" variant="standard">
               <Stack

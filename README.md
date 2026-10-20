@@ -6,10 +6,11 @@ A lightweight, 100% client-side web application built with React, TypeScript, an
 
 - Create, save, switch between, and delete gatherings; each gathering keeps its participants and expenses separate
 - Manage gatherings and participants together in a collapsible section
-- Add expenses with per-expense payer and split-participant selection
+- Add expenses with per-expense payer and split-participant selection; descriptions are optional and default to `Expense by <payer name>`
 - Clear all expenses from a gathering while keeping its participants for reuse
 - View gathering totals, average cost per participant, expense count, suggested transfers, and net balances
 - Persist data in `localStorage`, including migration of older single-gathering data
+- Reopen the last loaded app shell and assets offline after the first successful online visit
 - Use in-app confirmation dialogs to protect deletion and reset actions
 - Add Pocket Split to an iPhone home screen with the custom app icon
 - Responsive layouts for mobile, tablet, and desktop
@@ -39,6 +40,12 @@ The home screen shortcut uses the Pocket Split icon. If you previously added the
 4. Confirm the name and tap **Add** or **Install**.
 
 On some Android browsers the menu wording differs; look for **Install app** or **Add to Home screen**. This creates a convenient home screen entry. Pocket Split currently saves data in the browser, so use the same browser to see the same saved gatherings.
+
+### Use Pocket Split offline
+
+The first visit must be online so the browser can download the app and its offline cache. After the page has loaded successfully once, the service worker caches the app shell and built assets; a later visit or refresh while offline can load that cached version. Your gatherings and expenses are stored separately in browser `localStorage`.
+
+When a new version is deployed, the service worker updates its cache automatically while online. Open the app online after deployment to receive the latest version before going offline. Offline support requires a secure HTTPS site, which GitHub Pages provides.
 
 ## 🖼️ Screenshots
 
