@@ -158,9 +158,11 @@ export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormP
                   if (error) setError('')
                 }}
                 sx={{ flex: 1, minWidth: 0 }}
-                inputProps={{ min: 0, step: 0.01, inputMode: 'decimal' }}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                slotProps={{
+                  htmlInput: { min: 0, step: 0.01, inputMode: 'decimal' },
+                  input: {
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                  },
                 }}
               />
 
@@ -174,8 +176,10 @@ export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormP
                 }}
                 sx={{ flex: 1, minWidth: 0 }}
                 disabled={!participants.length}
-                SelectProps={{
-                  sx: { '& .MuiSelect-select': { overflow: 'hidden', textOverflow: 'ellipsis' } },
+                slotProps={{
+                  select: {
+                    sx: { '& .MuiSelect-select': { overflow: 'hidden', textOverflow: 'ellipsis' } },
+                  },
                 }}
               >
                 {participants.map((participant) => (
@@ -200,10 +204,8 @@ export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormP
             <FormControl component="fieldset" variant="standard">
               <Stack
                 direction="row"
-                justifyContent="space-between"
-                alignItems="center"
                 spacing={0.5}
-                sx={{ mb: 0.5 }}
+                sx={{ mb: 0.5, justifyContent: 'space-between', alignItems: 'center' }}
               >
                 <Typography variant="subtitle2" color="text.secondary" sx={{ flexShrink: 0 }}>
                   Split with

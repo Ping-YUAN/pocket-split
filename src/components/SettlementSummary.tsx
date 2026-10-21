@@ -44,7 +44,7 @@ export default function SettlementSummary({ result, participants, expenseCount }
   return (
     <Stack spacing={3}>
       <Grid container spacing={0} sx={{ width: '100%' }}>
-        <Grid item xs={4} sx={{ pl: 0, pt: 0, pr: 1, pb: 0 }}>
+        <Grid size={4} sx={{ pl: 0, pt: 0, pr: 1, pb: 0 }}>
           <Paper sx={{ p: { xs: 1, sm: 2 }, height: '100%' }}>
             <Typography variant="overline" color="text.secondary" sx={{ fontSize: { xs: '0.58rem', sm: '0.75rem' }, lineHeight: 1.2 }}>
               Total
@@ -54,7 +54,7 @@ export default function SettlementSummary({ result, participants, expenseCount }
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={4} sx={{ pl: 0, pt: 0, pr: 1, pb: 0 }}>
+        <Grid size={4} sx={{ pl: 0, pt: 0, pr: 1, pb: 0 }}>
           <Paper sx={{ p: { xs: 1, sm: 2 }, height: '100%' }}>
             <Typography variant="overline" color="text.secondary" sx={{ fontSize: { xs: '0.58rem', sm: '0.75rem' }, lineHeight: 1.2 }}>
               Average
@@ -64,7 +64,7 @@ export default function SettlementSummary({ result, participants, expenseCount }
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={4} sx={{ pl: 0, pt: 0, pr: 0, pb: 0 }}>
+        <Grid size={4} sx={{ pl: 0, pt: 0, pr: 0, pb: 0 }}>
           <Paper sx={{ p: { xs: 1, sm: 2 }, height: '100%' }}>
             <Typography variant="overline" color="text.secondary" sx={{ fontSize: { xs: '0.58rem', sm: '0.75rem' }, lineHeight: 1.2 }}>
               Expenses
@@ -86,7 +86,7 @@ export default function SettlementSummary({ result, participants, expenseCount }
             <Stack spacing={1.5}>
               {settlements.map((settlement, index) => (
                 <Box key={`${settlement.from}-${settlement.to}-${index}`} sx={{ p: 2, borderRadius: 2, bgcolor: 'rgba(79, 70, 229, 0.04)' }}>
-                  <Typography variant="body1" fontWeight={600}>
+                  <Typography variant="body1" sx={{ fontWeight: 600 }}>
                     {settlement.from} pays {settlement.to}: {moneyFormatter.format(settlement.amount)}
                   </Typography>
                 </Box>

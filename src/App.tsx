@@ -439,7 +439,7 @@ export default function App() {
 
         {activeTab === 0 ? (
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid size={{ xs: 12, md: 6, lg: 4 }}>
               <ParticipantManager
                 gatherings={appState.gatherings}
                 activeGatheringId={activeGathering.id}
@@ -452,11 +452,11 @@ export default function App() {
               />
             </Grid>
 
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid size={{ xs: 12, md: 6, lg: 4 }}>
               <ExpenseForm participants={participants} onAddExpense={addExpense} />
             </Grid>
 
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid size={{ xs: 12, md: 6, lg: 4 }}>
               <ExpenseList
                 expenses={expenses}
                 participants={participants}

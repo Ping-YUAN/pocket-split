@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import {
   Card,
   CardContent,
@@ -13,7 +14,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import type { Expense, Participant } from '../types'
 
 const moneyFormatter = new Intl.NumberFormat('en-US', {
@@ -74,15 +75,15 @@ export default function ExpenseList({
               .filter((name): name is string => Boolean(name))
 
             return (
-              <div key={expense.id ?? `${expense.description}-${index}`}>
+              <Fragment key={expense.id ?? `${expense.description}-${index}`}>
                 <ListItem alignItems="flex-start" disableGutters>
                   <ListItemText
                     primary={
-                      <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
-                        <Typography variant="subtitle1" fontWeight={700}>
+                      <Stack direction="row" spacing={1} sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                           {expense.description}
                         </Typography>
-                        <Typography variant="subtitle1" fontWeight={700} color="primary.main">
+                        <Typography variant="subtitle1" color="primary.main" sx={{ fontWeight: 700 }}>
                           {moneyFormatter.format(expense.amount)}
                         </Typography>
                       </Stack>
@@ -95,13 +96,14 @@ export default function ExpenseList({
                         <Typography variant="caption" color="text.secondary">
                           {new Date(expense.date).toLocaleDateString()}
                         </Typography>
-                        <Stack direction="row" spacing={0.5} useFlexGap flexWrap="wrap">
+                        <Stack direction="row" spacing={0.5} useFlexGap sx={{ flexWrap: 'wrap' }}>
                           {participantNames.map((participantName) => (
                             <Chip key={`${expense.id}-${participantName}`} label={participantName} size="small" />
                           ))}
                         </Stack>
                       </Stack>
                     }
+                    slotProps={{ secondary: { component: 'div' } }}
                   />
                   <ListItemSecondaryAction>
                     <IconButton
@@ -113,8 +115,10 @@ export default function ExpenseList({
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-                {index < expenses.length - 1 ? <Divider sx={{ my: 1 }} /> : null}
-              </div>
+                {index < expenses.length - 1 ? (
+                  <Divider component="li" role="presentation" sx={{ my: 1, listStyle: 'none' }} />
+                ) : null}
+              </Fragment>
             )
           })}
         </List>

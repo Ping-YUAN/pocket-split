@@ -5,9 +5,9 @@ App Name: Pocket Split
 Purpose: Allow a user to create and save multiple gatherings, input participants and expenses separately for each, and calculate the minimal debt-settlement transactions (who pays whom) for the selected gathering.
 Architecture: 100% Client-Side Single Page Application (SPA).
 Core Tech Stack:
-Language: TypeScript (Strict type safety for participants, expenses, and calculations)
-Framework: React (Functional components, Hooks)
-UI Library: Material UI (MUI v5/v6) with a heavy Mobile-First UX focus
+Language: TypeScript 6 (Strict type safety for participants, expenses, and calculations)
+Framework: React 19 (Functional components, Hooks)
+UI Library: Material UI (MUI 9) with a heavy Mobile-First UX focus
 Icons: `@mui/icons-material`
 Persistence: Browser `localStorage` for state persistence across sessions
 Offline Support: Use a service worker to precache the built app shell and static assets. After at least one successful online visit, navigation/reload while offline should serve the most recently cached app version. Automatically update the cache when a new version is available online; gathering data remains in `localStorage`.
@@ -149,9 +149,9 @@ Configure Vite for GitHub Pages (`vite.config.js`):
    ```
 Install gh-pages package:
 ```bash
-   npm install gh-pages --save-dev
+   npm install --save-dev --save-exact gh-pages@6.1.1
    ```
-The project `package.json` includes deployment scripts. The deploy command explicitly specifies the repository:
+Use Node.js `^20.19.0` or `>=22.12.0` with npm to satisfy the current Vite and PWA build-tool requirements. Run `npm ci` to install the exact audited versions recorded in `package-lock.json`. Keep `gh-pages` pinned to `6.1.1` until a newer release clears the dependency audit. The project `package.json` includes deployment scripts; the deploy command explicitly specifies the repository:
 ```json
    "scripts": {
      "dev": "vite",
