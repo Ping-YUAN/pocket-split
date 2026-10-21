@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import {
   Accordion,
   AccordionDetails,
@@ -19,7 +19,7 @@ import {
   Typography,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import type { Gathering, Participant } from '../types'
 
@@ -53,11 +53,12 @@ export default function ParticipantManager({
 
   const activeGathering = gatherings.find((gathering) => gathering.id === activeGatheringId)
 
-  useEffect(() => {
-    if (!participants.length) {
+  const handleRemoveParticipant = (participantId: string) => {
+    onRemoveParticipant(participantId)
+    if (participants.length === 1) {
       setExpanded(true)
     }
-  }, [participants.length])
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -112,7 +113,7 @@ export default function ParticipantManager({
             sx={{ minHeight: 56, px: 2, '& .MuiAccordionSummary-content': { my: 1 } }}
           >
             <Stack spacing={0.25} sx={{ minWidth: 0 }}>
-              <Typography variant="subtitle1" fontWeight={700}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                 Gathering & participants
               </Typography>
               <Typography variant="caption" color="text.secondary" noWrap>
@@ -125,10 +126,10 @@ export default function ParticipantManager({
           <AccordionDetails sx={{ px: 2, pb: 2, pt: 0 }}>
             <Stack spacing={2}>
               <Stack spacing={1.25}>
-                <Typography variant="h6" component="h2" fontWeight={700}>
+                <Typography variant="h6" component="h2" sx={{ fontWeight: 700 }}>
                   Gatherings
                 </Typography>
-                <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+                <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: 'wrap' }}>
                   {gatherings.map((gathering) => (
                     <Chip
                       key={gathering.id}
@@ -168,7 +169,7 @@ export default function ParticipantManager({
                         label="Participant name"
                         placeholder="e.g. Alex"
                         value={name}
-                        inputProps={{ inputMode: 'text' }}
+                        slotProps={{ htmlInput: { inputMode: 'text' } }}
                         onChange={(event) => {
                           setName(event.target.value)
                           if (error) setError('')
@@ -188,12 +189,12 @@ export default function ParticipantManager({
                   ) : null}
 
                   {participants.length ? (
-                    <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ mt: 3 }}>
+                    <Stack direction="row" spacing={1} useFlexGap sx={{ mt: 3, flexWrap: 'wrap' }}>
                       {participants.map((participant) => (
                         <Chip
                           key={participant.id}
                           label={participant.name}
-                          onDelete={() => onRemoveParticipant(participant.id)}
+                          onDelete={() => handleRemoveParticipant(participant.id)}
                           deleteIcon={<DeleteOutlineIcon />}
                           color="primary"
                           variant="outlined"

@@ -77,10 +77,13 @@ See total spending, average per participant, expense count, suggested transfers,
 
 ## 🚀 Local Development
 
-1. Install dependencies: `npm install`
+Use Node.js `^20.19.0` or `>=22.12.0` and npm.
+
+1. Install the locked dependencies: `npm ci`
 2. Start the development server: `npm run dev`
 3. Build for production: `npm run build`
 4. Run lint checks: `npm run lint`
+5. Check dependencies for known vulnerabilities: `npm audit`
 
 ## 📦 Deployment
 
