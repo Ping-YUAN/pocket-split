@@ -58,7 +58,7 @@ Quick-Add Behavior: Once a participant is added in the current session, they sho
 Feature 2: Expense Logging & Participant Selection
 Fields required per expense:
 `description` (Optional text, e.g., "Dinner", "Uber"). When omitted, use `Expense by <payer name>` as the expense label; the expense date remains available separately.
-`amount` (Number, `inputMode="decimal"` for mobile numeric keypad)
+`amount` (Number; use a period as the decimal separator, e.g. `12.50`; show `0.00` as the input example. Use a decimal keypad with an English input language so iOS displays a period even when the device locale uses a comma.)
 `payerId` (Dropdown selection from existing participants)
 `participantIds` (Checkboxes or interactive chips/list).
 Deletion Safety: Use an in-app Material UI dialog to confirm expense deletion. The "Reset All" action must also use this dialog style. Do not use browser-native confirmation dialogs.
@@ -93,7 +93,7 @@ Layout Structure:
 Gathering and Participants: Combine gathering chips and participant management in one collapsible card. Give the "Gatherings" label a prominent title style. Tapping a gathering chip selects it, its delete icon deletes it after in-app confirmation, and an "Add gathering" chip opens the creation dialog. Keep the active gathering name and participant count visible while collapsed.
 Mobile Bottom Navigation or Sticky Header Tabs: Easily switch between "1. Expenses" and "2. Settlement" within the selected gathering.
 Responsive Expense Layout: Stack the participant manager, expense form, and expense log on phones; display them in two columns on tablet-sized screens and three columns on desktop. Expand the content container at larger viewport widths so desktop layouts can use the available space.
-Compact Forms: Keep the amount and payer fields side-by-side on all screen sizes, followed by the optional description field. Display "Split with", "Select All", and "Clear All" in a single row with the label and actions aligned to opposite ends. Set the top padding of the expense form card header to 16px, with a small additional top inset on the "Add expense" title; keep remaining form spacing compact. Keep the "Add Expense" submit button sticky at the bottom of the expense form while scrolling through split participants, so it remains readily accessible; use appropriate mobile keypads (`type="number"` or `inputMode="decimal"` for amounts).
+Compact Forms: Keep the amount and payer fields side-by-side on all screen sizes, followed by the optional description field. Display "Split with", "Select All", and "Clear All" in a single row with the label and actions aligned to opposite ends. Set the top padding of the expense form card header to 16px, with a small additional top inset on the "Add expense" title; keep remaining form spacing compact. Keep the "Add Expense" submit button sticky at the bottom of the expense form while scrolling through split participants, so it remains readily accessible. For amounts, use a text input with `inputMode="decimal"` and `lang="en-US"` so decimal values use a period (e.g. `12.50`) on mobile keyboards, including iOS devices with a comma-based locale.
 Fast Multi-select Controls: In the expense form, display participants as tap-friendly MUI `Chip` controls or `Checkbox` list items with an accessible top toolbar for "Select All".
 Cards & Accordions: Group expenses in clean cards rather than wide desktop tables.
 Color Theme: Vibrant, friendly financial palette (e.g., Deep Purple / Teal primary, amber accents) with support for clean typography.

@@ -151,15 +151,16 @@ export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormP
             <Stack direction="row" spacing={1}>
               <TextField
                 label="Amount"
-                type="number"
+                type="text"
                 value={amount}
                 onChange={(event) => {
-                  setAmount(event.target.value)
+                  setAmount(event.target.value.replace(/,/g, '.'))
                   if (error) setError('')
                 }}
+                placeholder="0.00"
                 sx={{ flex: 1, minWidth: 0 }}
                 slotProps={{
-                  htmlInput: { min: 0, step: 0.01, inputMode: 'decimal' },
+                  htmlInput: { inputMode: 'decimal', lang: 'en-US' },
                   input: {
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                   },
