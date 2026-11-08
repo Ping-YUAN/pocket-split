@@ -15,16 +15,13 @@ import {
   Typography,
 } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutlineOutlined'
-import type { Expense, Participant } from '../types'
-
-const moneyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-})
+import type { CurrencyCode, Expense, Participant } from '../types'
+import { createCurrencyFormatter } from '../utils/currency'
 
 type ExpenseListProps = {
   expenses: Expense[]
   participants: Participant[]
+  currency: CurrencyCode
   onRemoveExpense: (expenseId: string) => void
   onClearExpenses: () => void
 }
@@ -32,10 +29,12 @@ type ExpenseListProps = {
 export default function ExpenseList({
   expenses,
   participants,
+  currency,
   onRemoveExpense,
   onClearExpenses,
 }: ExpenseListProps) {
   const participantMap = new Map(participants.map((participant) => [participant.id, participant.name]))
+  const moneyFormatter = createCurrencyFormatter(currency)
 
   if (!expenses.length) {
     return (

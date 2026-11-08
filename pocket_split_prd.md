@@ -75,12 +75,14 @@ Positive = Creditor (to receive money), Negative = Debtor (to pay money).
 Settlement Simplification (Greedy Algorithm):
 Match debtors with creditors to minimize the number of transfer transactions.
 Return an array of `DebtTransfer` objects to render in a clean summary table or card stack.
+Preferred payer: Each gathering can select a participant to pay multiple recipients when their debt and at least two creditor balances allow it; otherwise use the normal greedy settlement.
 Feature 4: Multiple Gatherings
 Create: Users can create and name any number of gatherings, such as "Weekend trip" or "Birthday dinner".
 Select and delete: Render gatherings as chips inside the collapsible participant-management section. Tapping a gathering chip selects it; its delete icon opens the same in-app confirmation dialog as deleting a participant and warns that its participants and expenses will also be deleted. If the deleted gathering was active, switch to another saved gathering; if it was the last gathering, create a fresh empty "My first gathering".
 Create: Provide an "Add gathering" chip alongside the gathering chips; newly created gatherings become active immediately.
 Summary: The collapsed section shows the active gathering and participant count; expanding it exposes the gathering chips and participant management.
 Isolation: Every gathering has its own participants and expenses. Participant changes, expense entry/removal, and settlement calculations affect only the selected gathering.
+Gathering settings: Each gathering has an independently selected display currency (default EUR) and preferred multi-transfer payer. Changing currency affects expense entry, the expense log, and settlement amounts without converting stored values.
 Independent Settlement: The settlement tab reports totals, balances, and transfers for the selected gathering only; switching gatherings shows that gathering's own results.
 Settlement Summary: The three summary cards show total spending, average per participant, and the number of expenses. Do not show the number of settlement transfers as a headline statistic.
 Persistence: Gatherings and the active gathering ID are automatically saved in `localStorage` under `pocket_split_state_v3`. Each gathering stores its ID, name, participants, expenses, and creation date.

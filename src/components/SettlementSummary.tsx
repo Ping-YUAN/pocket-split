@@ -14,22 +14,20 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import type { Participant } from '../types'
+import type { CurrencyCode, Participant } from '../types'
 import type { DebtCalculationResult } from '../utils/calculateDebts'
+import { createCurrencyFormatter } from '../utils/currency'
 
 type SettlementSummaryProps = {
   result: DebtCalculationResult
   participants: Participant[]
   expenseCount: number
+  currency: CurrencyCode
 }
 
-const moneyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-})
-
-export default function SettlementSummary({ result, participants, expenseCount }: SettlementSummaryProps) {
+export default function SettlementSummary({ result, participants, expenseCount, currency }: SettlementSummaryProps) {
   const { totalSpent, averagePerPerson, participantData, balances, settlements } = result
+  const moneyFormatter = createCurrencyFormatter(currency)
 
   if (!participants.length) {
     return (

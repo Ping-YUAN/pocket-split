@@ -18,7 +18,11 @@ export interface Gathering {
   participants: Participant[]
   expenses: Expense[]
   createdAt: string
+  currency: CurrencyCode
+  preferredPayerId: string
 }
+
+export type CurrencyCode = 'EUR' | 'USD' | 'GBP' | 'JPY' | 'CNY' | 'CHF' | 'CAD' | 'AUD' | 'NZD'
 
 export interface DebtTransfer {
   from: string

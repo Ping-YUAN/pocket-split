@@ -22,8 +22,9 @@ import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import ParticipantManager from './components/ParticipantManager';
 import SettlementSummary from './components/SettlementSummary';
-import type { Expense, Gathering, Participant } from './types';
+import type { CurrencyCode, Expense, Gathering, Participant } from './types';
 import { calculateDebts } from './utils/calculateDebts';
+import { isCurrencyCode } from './utils/currency';
 
 const STORAGE_KEY = 'pocket_split_state_v3'
 const PREVIOUS_STORAGE_KEY = 'pocket_split_state_v2'
@@ -55,6 +56,8 @@ const createGathering = (name: string): Gathering => ({
   participants: [],
   expenses: [],
   createdAt: new Date().toISOString(),
+  currency: 'EUR',
+  preferredPayerId: '',
 })
 
 const toParticipant = (value: unknown, fallbackIndex: number): Participant => {
@@ -135,6 +138,8 @@ const toGathering = (value: unknown, fallbackIndex: number): Gathering | null =>
     participants?: unknown
     expenses?: unknown
     createdAt?: unknown
+    currency?: unknown
+    preferredPayerId?: unknown
   }
   if (!Array.isArray(candidate.participants) || !Array.isArray(candidate.expenses)) return null
 
@@ -146,6 +151,8 @@ const toGathering = (value: unknown, fallbackIndex: number): Gathering | null =>
     participants: candidate.participants.map(toParticipant),
     expenses: normalizeExpenses(candidate.expenses),
     createdAt: typeof candidate.createdAt === 'string' ? candidate.createdAt : new Date().toISOString(),
+    currency: isCurrencyCode(candidate.currency) ? candidate.currency : 'EUR',
+    preferredPayerId: typeof candidate.preferredPayerId === 'string' ? candidate.preferredPayerId : '',
   }
 }
 
@@ -202,14 +209,16 @@ export default function App() {
   ) ?? appState.gatherings[0]
   const participants = activeGathering.participants
   const expenses = activeGathering.expenses
+  const currency = activeGathering.currency
+  const preferredPayerId = activeGathering.preferredPayerId
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(appState))
   }, [appState])
 
   const settlementResult = useMemo(
-    () => calculateDebts({ participants, expenses }),
-    [participants, expenses],
+    () => calculateDebts({ participants, expenses, preferredPayerId }),
+    [participants, expenses, preferredPayerId],
   )
 
   const updateActiveGathering = (update: (gathering: Gathering) => Gathering) => {
@@ -287,6 +296,14 @@ export default function App() {
     }))
   }
 
+  const updateCurrency = (nextCurrency: CurrencyCode) => {
+    updateActiveGathering((gathering) => ({ ...gathering, currency: nextCurrency }))
+  }
+
+  const updatePreferredPayer = (participantId: string) => {
+    updateActiveGathering((gathering) => ({ ...gathering, preferredPayerId: participantId }))
+  }
+
   const removeParticipant = (participantId: string) => {
     const linkedExpenses = expenses.filter(
       (expense) => expense.payerId === participantId || expense.participantIds.includes(participantId),
@@ -301,6 +318,7 @@ export default function App() {
       updateActiveGathering((gathering) => ({
         ...gathering,
         participants: gathering.participants.filter((participant) => participant.id !== participantId),
+        preferredPayerId: gathering.preferredPayerId === participantId ? '' : gathering.preferredPayerId,
         expenses: gathering.expenses
           .map((expense) => ({
             ...expense,
@@ -444,22 +462,27 @@ export default function App() {
                 gatherings={appState.gatherings}
                 activeGatheringId={activeGathering.id}
                 participants={participants}
+                currency={currency}
+                preferredPayerId={preferredPayerId}
                 onSelectGathering={selectGathering}
                 onRemoveGathering={removeGathering}
                 onCreateGathering={addGathering}
                 onAddParticipant={addParticipant}
                 onRemoveParticipant={removeParticipant}
+                onCurrencyChange={updateCurrency}
+                onPreferredPayerChange={updatePreferredPayer}
               />
             </Grid>
 
             <Grid size={{ xs: 12, md: 6, lg: 4 }}>
-              <ExpenseForm participants={participants} onAddExpense={addExpense} />
+              <ExpenseForm participants={participants} currency={currency} onAddExpense={addExpense} />
             </Grid>
 
             <Grid size={{ xs: 12, md: 6, lg: 4 }}>
               <ExpenseList
                 expenses={expenses}
                 participants={participants}
+                currency={currency}
                 onRemoveExpense={removeExpense}
                 onClearExpenses={clearExpenses}
               />
@@ -470,6 +493,7 @@ export default function App() {
             result={settlementResult}
             participants={participants}
             expenseCount={expenses.length}
+            currency={currency}
           />
         )}
       </Container>

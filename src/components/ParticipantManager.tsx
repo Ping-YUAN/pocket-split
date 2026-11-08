@@ -14,6 +14,7 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  MenuItem,
   Stack,
   TextField,
   Typography,
@@ -21,28 +22,37 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import type { Gathering, Participant } from '../types'
+import type { CurrencyCode, Gathering, Participant } from '../types'
+import { CURRENCY_OPTIONS } from '../utils/currency'
 
 type ParticipantManagerProps = {
   gatherings: Gathering[]
   activeGatheringId: string
   participants: Participant[]
+  currency: CurrencyCode
+  preferredPayerId: string
   onSelectGathering: (gatheringId: string) => void
   onRemoveGathering: (gatheringId: string) => void
   onCreateGathering: (name: string) => void
   onAddParticipant: (participantName: string) => void
   onRemoveParticipant: (participantId: string) => void
+  onCurrencyChange: (currency: CurrencyCode) => void
+  onPreferredPayerChange: (participantId: string) => void
 }
 
 export default function ParticipantManager({
   gatherings,
   activeGatheringId,
   participants,
+  currency,
+  preferredPayerId,
   onSelectGathering,
   onRemoveGathering,
   onCreateGathering,
   onAddParticipant,
   onRemoveParticipant,
+  onCurrencyChange,
+  onPreferredPayerChange,
 }: ParticipantManagerProps) {
   const [name, setName] = useState('')
   const [error, setError] = useState('')
@@ -208,6 +218,35 @@ export default function ParticipantManager({
                   )}
                 </CardContent>
               </div>
+
+              <Divider />
+
+              <Stack direction="column" spacing={1.5}>
+                <TextField
+                  select
+                  label="Currency"
+                  value={currency}
+                  onChange={(event) => onCurrencyChange(event.target.value as CurrencyCode)}
+                  fullWidth
+                >
+                  {CURRENCY_OPTIONS.map((option) => (
+                    <MenuItem key={option.code} value={option.code}>{option.label}</MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  select
+                  label="Person to make multiple transfers"
+                  value={preferredPayerId}
+                  onChange={(event) => onPreferredPayerChange(event.target.value)}
+                  fullWidth
+                  helperText="When possible, split their payments between multiple people."
+                >
+                  <MenuItem value="">Automatic</MenuItem>
+                  {participants.map((participant) => (
+                    <MenuItem key={participant.id} value={participant.id}>{participant.name}</MenuItem>
+                  ))}
+                </TextField>
+              </Stack>
             </Stack>
           </AccordionDetails>
         </Accordion>

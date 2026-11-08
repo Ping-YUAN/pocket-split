@@ -16,17 +16,19 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import type { Expense, Participant } from '../types';
+import type { CurrencyCode, Expense, Participant } from '../types';
+import { getCurrencySymbol } from '../utils/currency';
 
 const createExpenseId = () =>
   typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `expense-${Date.now()}-${Math.random()}`
 
 type ExpenseFormProps = {
   participants: Participant[]
+  currency: CurrencyCode
   onAddExpense: (expense: Expense) => void
 }
 
-export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormProps) {
+export default function ExpenseForm({ participants, currency, onAddExpense }: ExpenseFormProps) {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [payerId, setPayerId] = useState('')
@@ -162,7 +164,7 @@ export default function ExpenseForm({ participants, onAddExpense }: ExpenseFormP
                 slotProps={{
                   htmlInput: { inputMode: 'decimal', lang: 'en-US' },
                   input: {
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    startAdornment: <InputAdornment position="start">{getCurrencySymbol(currency)}</InputAdornment>,
                   },
                 }}
               />

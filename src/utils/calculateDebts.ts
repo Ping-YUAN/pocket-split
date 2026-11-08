@@ -26,9 +26,11 @@ const roundCurrency = (value: number) => Math.round((value + Number.EPSILON) * 1
 export function calculateDebts({
   participants = [],
   expenses = [],
+  preferredPayerId = '',
 }: {
   participants?: Participant[]
   expenses?: Expense[]
+  preferredPayerId?: string
 }): DebtCalculationResult {
   const balances: Record<string, { totalPaid: number; totalOwed: number; net: number }> = participants.reduce(
     (accumulator, participant) => {
@@ -53,10 +55,13 @@ export function calculateDebts({
       balances[expense.payerId].totalPaid += amount
     }
 
-    const selectedParticipants = expense.participantIds.length ? expense.participantIds : participants.map((participant) => participant.id)
-    const splitAmount = selectedParticipants.length ? amount / selectedParticipants.length : 0
+    const selectedParticipants = expense.participantIds.length
+      ? [...new Set(expense.participantIds.filter((participantId) => participantId in balances))]
+      : participants.map((participant) => participant.id)
+    const splitParticipants = selectedParticipants.length ? selectedParticipants : participants.map((participant) => participant.id)
+    const splitAmount = splitParticipants.length ? amount / splitParticipants.length : 0
 
-    selectedParticipants.forEach((participantId) => {
+    splitParticipants.forEach((participantId) => {
       if (balances[participantId]) {
         balances[participantId].totalOwed += splitAmount
       }
@@ -72,6 +77,7 @@ export function calculateDebts({
   const creditors = Object.entries(balances)
     .filter(([, data]) => data.net > 0.01)
     .map(([participantId, data]) => ({
+      id: participantId,
       name: participantNameLookup.get(participantId) ?? participantId,
       amount: roundCurrency(data.net),
     }))
@@ -80,15 +86,49 @@ export function calculateDebts({
   const debtors = Object.entries(balances)
     .filter(([, data]) => data.net < -0.01)
     .map(([participantId, data]) => ({
+      id: participantId,
       name: participantNameLookup.get(participantId) ?? participantId,
       amount: roundCurrency(Math.abs(data.net)),
     }))
     .sort((a, b) => a.amount - b.amount)
 
   const settlements: Settlement[] = []
+  const preferredDebtorIndex = debtors.findIndex((debtor) => debtor.id === preferredPayerId)
+  const preferredDebtor = preferredDebtorIndex >= 0 ? debtors.splice(preferredDebtorIndex, 1)[0] : undefined
+
+  if (preferredDebtor && creditors.length > 1 && preferredDebtor.amount >= 0.02) {
+    const [firstCreditor, secondCreditor] = creditors
+    const debtCents = Math.round(preferredDebtor.amount * 100)
+    const firstCreditorCents = Math.round(firstCreditor.amount * 100)
+    const secondCreditorCents = Math.round(secondCreditor.amount * 100)
+    const lowerFirstPayment = Math.max(1, debtCents - secondCreditorCents)
+    const upperFirstPayment = Math.min(firstCreditorCents, debtCents - 1)
+
+    if (firstCreditorCents + secondCreditorCents >= debtCents) {
+      const firstPaymentCents = Math.max(
+        lowerFirstPayment,
+        Math.min(upperFirstPayment, Math.ceil(debtCents / 2)),
+      )
+      const secondPaymentCents = debtCents - firstPaymentCents
+      const firstAmount = firstPaymentCents / 100
+      const secondAmount = secondPaymentCents / 100
+
+      settlements.push(
+        { from: preferredDebtor.name, to: firstCreditor.name, amount: firstAmount },
+        { from: preferredDebtor.name, to: secondCreditor.name, amount: secondAmount },
+      )
+      firstCreditor.amount = roundCurrency(firstCreditor.amount - firstAmount)
+      secondCreditor.amount = roundCurrency(secondCreditor.amount - secondAmount)
+      preferredDebtor.amount = 0
+    }
+  }
+
+  if (preferredDebtor && preferredDebtor.amount > 0.01) {
+    debtors.unshift(preferredDebtor)
+  }
+
   let debtorIndex = 0
   let creditorIndex = 0
-
   while (debtorIndex < debtors.length && creditorIndex < creditors.length) {
     const debtor = debtors[debtorIndex]
     const creditor = creditors[creditorIndex]
